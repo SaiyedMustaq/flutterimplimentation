@@ -22,7 +22,7 @@ class RouteName {
 
 class AppString {
   const AppString();
-  final appName = "Demo";
+  final appName = "Flutter Implementation";
 }
 
 class CommonMethod {
