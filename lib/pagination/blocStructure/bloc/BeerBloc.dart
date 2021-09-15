@@ -15,6 +15,7 @@ class BeerBloc extends Bloc<BeerEvent, BeerState> {
   BeerBloc({
     @required this.beerRepository,
   }) : super(BeerInitialState());
+
   @override
   Stream<BeerState> mapEventToState(BeerEvent event) async* {
     if (event is BeerFetchEvent) {
@@ -23,6 +24,7 @@ class BeerBloc extends Bloc<BeerEvent, BeerState> {
       if (response is http.Response) {
         if (response.statusCode == 200) {
           final beers = jsonDecode(response.body) as List;
+        
           yield BeerSuccessState(
             beers: beers.map((beer) => BeerModel.fromJson(beer)).toList(),
           );

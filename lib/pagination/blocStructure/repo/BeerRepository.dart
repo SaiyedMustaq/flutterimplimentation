@@ -6,6 +6,7 @@ class BeerRepository {
   static const int _perPage = 10;
 
   BeerRepository._();
+
   factory BeerRepository() {
     return _beerRepository;
   }

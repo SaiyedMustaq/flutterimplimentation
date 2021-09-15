@@ -22,12 +22,11 @@ class BeerListItem extends StatelessWidget {
           beer.name,
           textAlign: TextAlign.justify,
         ),
-        Switch(value: false, onChanged: (value) {}),
         const SizedBox(height: 20),
-        beer?.url == null
+        beer?.imageUrl == null
             ? Container()
             : Image.network(
-                beer.url,
+                beer.imageUrl,
                 loadingBuilder: (context, widget, imageChunkEvent) {
                   return imageChunkEvent == null
                       ? widget

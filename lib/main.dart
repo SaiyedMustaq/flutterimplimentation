@@ -9,6 +9,7 @@ import 'package:lazy_loading_listview/pagination/PaginationNavigation.dart';
 import 'package:lazy_loading_listview/permissionHandler/permissionHendlerPage.dart';
 import 'package:lazy_loading_listview/providerPage/ProviderPage.dart';
 import 'package:lazy_loading_listview/providerPage/firebase/MobileOtpVerifay.dart';
+import 'package:lazy_loading_listview/sizer/SizerPage.dart';
 import 'package:lazy_loading_listview/timePicker/TimePickerPage.dart';
 import 'package:lazy_loading_listview/utils/Constants.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,9 @@ final lightTheme = ThemeData(
   accentIconTheme: IconThemeData(color: Colors.white),
   dividerColor: Colors.white54,
 );
+
+var pageHeight;
+var pageWidth;
 
 class MyApp extends StatelessWidget {
   @override
@@ -112,6 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    pageHeight = MediaQuery.of(context).size.height;
+    pageWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
         body: Container(
@@ -171,6 +177,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => TimePickerPage())),
                   child: Text('Time Picker')),
+              MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  color: Colors.grey[100],
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SizerPage())),
+                  child: Text('Sizer Page')),
             ],
           ),
         ));

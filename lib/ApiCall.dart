@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lazy_loading_listview/models/PostListModel.dart';
 import 'package:lazy_loading_listview/networkModule/BaseUrl.dart';
@@ -27,16 +29,16 @@ class _ApiCallState extends State<ApiCall> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: ListView.builder(
-          itemBuilder: (_, index) => Text('${modelPostLit[index].id}')),
+      body: ListView.builder(itemBuilder: (_, index) => Text('${'Hello'}')),
     );
   }
 
   void callApi() async {
+    PostListModel postListModel;
     HttpClient.instance
         .getCall(
           url: EndPoint.todos,
         )
-        .then((value) => {modelPostLit = value});
+        .then((value) => {postListModel = jsonDecode(value)});
   }
 }
