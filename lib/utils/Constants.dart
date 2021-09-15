@@ -5,6 +5,8 @@ class Constants {
   static final RouteName routeName = RouteName();
   static final CommonMethod commonMethod = CommonMethod();
   static final EndPoint endPoint = EndPoint();
+  static final AppMargin margin = AppMargin();
+  static final AppPadding padding = AppPadding();
 }
 
 class RouteName {
@@ -39,4 +41,14 @@ class CommonMethod {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+}
+
+class AppMargin {
+  const AppMargin();
+  final double smallMargin = 25.5;
+}
+
+class AppPadding {
+  const AppPadding();
+  final double smallPadding = 10.0;
 }
