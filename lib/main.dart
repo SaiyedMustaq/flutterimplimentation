@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
 import 'package:lazy_loading_listview/ApiCall.dart';
-import 'package:lazy_loading_listview/ThemeNotifier.dart';
 import 'package:lazy_loading_listview/checkConnection/ConnectionStatusSingleton.dart';
 import 'package:lazy_loading_listview/nabigationPage/pages.dart';
 import 'package:lazy_loading_listview/pagination/PaginationNavigation.dart';
@@ -23,10 +22,7 @@ void main() {
       ConnectionStatusSingleton.getInstance();
   connectionStatus.initialize();
   runApp(
-    ChangeNotifierProvider<ThemeNotifier>(
-      create: (_) => ThemeNotifier(lightTheme),
-      child: MyApp(),
-    ),
+    MyApp(),
   );
 }
 
@@ -53,11 +49,9 @@ final lightTheme = ThemeData(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: themeNotifier.getTheme(),
       home: MyHomePage(title: 'IncrementallyLoadingListView demo'),
       initialRoute: '/',
       routes: {
@@ -118,17 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-
     return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
         body: Container(
           child: Column(
             children: [
-              Switch(
-                onChanged: (bool value) => OnOffTogggle(),
-                value: toggleValue,
-              ),
               MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   color: Colors.grey[100],
@@ -186,11 +174,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ));
-  }
-
-  OnOffTogggle() {
-    toggleValue = !toggleValue;
-    setState(() {});
   }
 
   buildDynamicKeyUI(List<Data> data) {

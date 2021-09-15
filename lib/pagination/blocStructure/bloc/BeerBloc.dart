@@ -15,7 +15,6 @@ class BeerBloc extends Bloc<BeerEvent, BeerState> {
   BeerBloc({
     @required this.beerRepository,
   }) : super(BeerInitialState());
-
   @override
   Stream<BeerState> mapEventToState(BeerEvent event) async* {
     if (event is BeerFetchEvent) {

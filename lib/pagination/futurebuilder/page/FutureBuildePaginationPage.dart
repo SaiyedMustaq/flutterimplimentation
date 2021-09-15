@@ -179,8 +179,7 @@ class _FutureBuilderPaginationPage extends State<FutureBuilderPaginationPage> {
         body: FutureBuilder(
             future: _futureMovies,
             builder: (BuildContext ctx, AsyncSnapshot<List<Results>> snapshot) {
-              // if (snapshot.connectionState != ConnectionState.done) {
-              //   print('HAVE DATE ${snapshot.data}');
+              // if (snapshot.connectionState == ConnectionState.waiting) {
               //   return Center(child: CircularProgressIndicator());
               // }
 
@@ -188,7 +187,10 @@ class _FutureBuilderPaginationPage extends State<FutureBuilderPaginationPage> {
                 return Center(child: Text("Error"));
               }
               if (!snapshot.hasData) {
-                return Center(child: Text("Error"));
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.red,
+                ));
               }
 
               var dataToShow = snapshot.data;

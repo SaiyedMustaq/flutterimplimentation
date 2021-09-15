@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lazy_loading_listview/pagination/blocPattern/blocPatternPage.dart';
 import 'package:lazy_loading_listview/pagination/blocStructure/page/PostsList.dart';
 import 'package:lazy_loading_listview/pagination/futurebuilder/page/FutureBuildePaginationPage.dart';
 import 'package:lazy_loading_listview/pagination/provider/ProviderPagination.dart';
@@ -47,6 +48,11 @@ class PaginationNavigation extends StatelessWidget {
             },
           ),
           MaterialButton(
+            color: Colors.blue,
+            child: Text(
+              'Bloc Pattern',
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
+            ),
             onPressed: () {
               gotoPage(context, 3);
             },
@@ -71,6 +77,8 @@ class PaginationNavigation extends StatelessWidget {
             MaterialPageRoute(builder: (context) => ProviderPaginationPage()));
         break;
       case 3:
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => BlocPattenPage()));
         break;
       default:
     }
