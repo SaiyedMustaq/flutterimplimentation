@@ -7,17 +7,22 @@ class Constants {
   static final EndPoint endPoint = EndPoint();
   static final AppMargin margin = AppMargin();
   static final AppPadding padding = AppPadding();
+  static final AppString appString = AppString();
 }
 
 class RouteName {
   const RouteName();
-
   final homePage = '/';
   final pageOne = '/onePage';
   final pageTwo = '/pageTwo';
   final pageThree = '/pageThree';
   final pageFour = '/pageFour';
   final pageFive = '/pageFive';
+}
+
+class AppString {
+  const AppString();
+  final appName = "Demo";
 }
 
 class CommonMethod {
