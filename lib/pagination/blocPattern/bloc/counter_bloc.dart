@@ -5,7 +5,7 @@ import 'package:lazy_loading_listview/pagination/blocPattern/bloc/blocImpoert.da
 
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc(SettingsState initialState) : super(InitialSettingsState());
+  SettingsBloc(SettingsState initialState) : super(null);
 
   @override
   SettingsState get initialState => InitialSettingsState();

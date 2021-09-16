@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
 import 'package:lazy_loading_listview/ApiCall.dart';
+import 'package:lazy_loading_listview/WeatherApp/WatherAppPage.dart';
 import 'package:lazy_loading_listview/checkConnection/ConnectionStatusSingleton.dart';
-import 'package:lazy_loading_listview/nabigationPage/pages.dart';
+import 'package:lazy_loading_listview/lifecycle/flutter_lifecycle.dart';
+import 'package:lazy_loading_listview/navigationPage/pages.dart';
 import 'package:lazy_loading_listview/pagination/PaginationNavigation.dart';
 import 'package:lazy_loading_listview/permissionHandler/permissionHendlerPage.dart';
 import 'package:lazy_loading_listview/providerPage/ProviderPage.dart';
@@ -12,7 +14,6 @@ import 'package:lazy_loading_listview/providerPage/firebase/MobileOtpVerifay.dar
 import 'package:lazy_loading_listview/sizer/SizerPage.dart';
 import 'package:lazy_loading_listview/timePicker/TimePickerPage.dart';
 import 'package:lazy_loading_listview/utils/Constants.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'checkConnection/CheckInternetConnection.dart';
@@ -120,70 +121,92 @@ class _MyHomePageState extends State<MyHomePage> {
     pageWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
-        body: Container(
-          child: Column(
-            children: [
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => PageOne())),
-                  child: Text('Navigation Pages')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ProviderPage())),
-                  child: Text('Provider Page')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PaginationNavigation())),
-                  child: Text('Pagination')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginScreen())),
-                  child: Text('Mobile Otp Firebase')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DissmissViewPage())),
-                  child: Text('Dismiss List View')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ConnectionCheck())),
-                  child: Text('Check Connection')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PermissionHandlerPage())),
-                  child: Text('Permission Handler')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => ApiCall())),
-                  child: Text('Api handle')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TimePickerPage())),
-                  child: Text('Time Picker')),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  color: Colors.grey[100],
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SizerPage())),
-                  child: Text('Sizer Page')),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: [
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => WetherAppPage())),
+                    child: Text('Weather App')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PageOne())),
+                    child: Text('Navigation Pages')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => ProviderPage())),
+                    child: Text('Provider Page')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => PaginationNavigation())),
+                    child: Text('Pagination')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen())),
+                    child: Text('Mobile Otp Firebase')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => DissmissViewPage())),
+                    child: Text('Dismiss List View')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => ConnectionCheck())),
+                    child: Text('Check Connection')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => PermissionHandlerPage())),
+                    child: Text('Permission Handler')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ApiCall())),
+                    child: Text('Api handle')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => TimePickerPage())),
+                    child: Text('Time Picker')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SizerPage())),
+                    child: Text('Sizer Page')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => ScreenLifecycle())),
+                    child: Text('ScreenLifecycle')),
+              ],
+            ),
           ),
         ));
   }
