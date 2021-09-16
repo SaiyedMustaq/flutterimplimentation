@@ -1,9 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
 import 'package:lazy_loading_listview/ApiCall.dart';
 import 'package:lazy_loading_listview/WeatherApp/WatherAppPage.dart';
+import 'package:lazy_loading_listview/blocModule/AuthenticationBloc.dart';
+import 'package:lazy_loading_listview/blocModule/LoginBloc.dart';
+import 'package:lazy_loading_listview/blocModule/UserRepository.dart';
+import 'package:lazy_loading_listview/blocModule/blocLoginPage.dart';
 import 'package:lazy_loading_listview/checkConnection/ConnectionStatusSingleton.dart';
 import 'package:lazy_loading_listview/lifecycle/flutter_lifecycle.dart';
 import 'package:lazy_loading_listview/navigationPage/pages.dart';
@@ -54,19 +59,33 @@ var pageWidth;
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: MyHomePage(title: 'IncrementallyLoadingListView demo'),
-      initialRoute: '/',
-      routes: {
-        //'/': (context) => MyHomePage(),
-        '${Constants.routeName.pageOne}': (context) => PageOne(),
-        '${Constants.routeName.pageTwo}': (context) => PageTwo(),
-        '${Constants.routeName.pageThree}': (context) => PageThree(),
-        '${Constants.routeName.pageFour}': (context) => PageFour(1),
-        '${Constants.routeName.pageFive}': (context) => PageFive(),
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (BuildContext context) =>
+              AuthenticationBloc(userRepository: UserRepository()),
+        ),
+        BlocProvider<LoginBloc>(
+          create: (BuildContext context) => LoginBloc(
+              authenticationBloc:
+                  AuthenticationBloc(userRepository: UserRepository()),
+              userRepository: UserRepository()),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: MyHomePage(title: 'IncrementallyLoadingListView demo'),
+        initialRoute: '/',
+        routes: {
+          //'/': (context) => MyHomePage(),
+          '${Constants.routeName.pageOne}': (context) => PageOne(),
+          '${Constants.routeName.pageTwo}': (context) => PageTwo(),
+          '${Constants.routeName.pageThree}': (context) => PageThree(),
+          '${Constants.routeName.pageFour}': (context) => PageFour(1),
+          '${Constants.routeName.pageFive}': (context) => PageFive(),
+        },
+      ),
     );
   }
 }
@@ -205,6 +224,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => ScreenLifecycle())),
                     child: Text('ScreenLifecycle')),
+                MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                    onPressed: () =>
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => LoginPage(
+                                  userRepository: UserRepository(),
+                                ))),
+                    child: Text('Login Page')),
               ],
             ),
           ),
