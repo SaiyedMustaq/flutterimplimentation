@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:incrementally_loading_listview/incrementally_loading_listview.dart';
 import 'package:lazy_loading_listview/ApiCall.dart';
 import 'package:lazy_loading_listview/WeatherApp/WatherAppPage.dart';
-import 'package:lazy_loading_listview/blocModule/AuthenticationBloc.dart';
-import 'package:lazy_loading_listview/blocModule/LoginBloc.dart';
-import 'package:lazy_loading_listview/blocModule/UserRepository.dart';
-import 'package:lazy_loading_listview/blocModule/blocLoginPage.dart';
+import 'package:lazy_loading_listview/blocModule/login_bloc/LoginBloc.dart';
+import 'package:lazy_loading_listview/blocModule/repository/UserRepository.dart';
+import 'package:lazy_loading_listview/blocModule/login_page/blocLoginPage.dart';
 import 'package:lazy_loading_listview/checkConnection/ConnectionStatusSingleton.dart';
 import 'package:lazy_loading_listview/lifecycle/flutter_lifecycle.dart';
 import 'package:lazy_loading_listview/navigationPage/pages.dart';
@@ -16,9 +15,12 @@ import 'package:lazy_loading_listview/pagination/PaginationNavigation.dart';
 import 'package:lazy_loading_listview/permissionHandler/permissionHendlerPage.dart';
 import 'package:lazy_loading_listview/providerPage/ProviderPage.dart';
 import 'package:lazy_loading_listview/providerPage/firebase/MobileOtpVerifay.dart';
+import 'package:lazy_loading_listview/sizeConfigModule/SizeConfig.dart';
 import 'package:lazy_loading_listview/sizer/SizerPage.dart';
 import 'package:lazy_loading_listview/timePicker/TimePickerPage.dart';
 import 'package:lazy_loading_listview/utils/Constants.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'checkConnection/CheckInternetConnection.dart';
@@ -61,18 +63,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthenticationBloc>(
-          create: (BuildContext context) =>
-              AuthenticationBloc(userRepository: UserRepository()),
-        ),
         BlocProvider<LoginBloc>(
-          create: (BuildContext context) => LoginBloc(
-              authenticationBloc:
-                  AuthenticationBloc(userRepository: UserRepository()),
-              userRepository: UserRepository()),
+          create: (BuildContext context) => LoginBloc(),
         ),
       ],
       child: MaterialApp(
+        builder: (context, widget) => ResponsiveWrapper.builder(
+          BouncingScrollWrapper.builder(context, widget),
+          maxWidth: double.infinity,
+          minWidth: double.infinity,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(450, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+            ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+          ],
+        ),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         home: MyHomePage(title: 'IncrementallyLoadingListView demo'),
@@ -136,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     pageHeight = MediaQuery.of(context).size.height;
     pageWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -151,12 +160,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => WetherAppPage())),
                     child: Text('Weather App')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => PageOne())),
                     child: Text('Navigation Pages')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -164,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => ProviderPage())),
                     child: Text('Provider Page')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -171,12 +183,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => PaginationNavigation())),
                     child: Text('Pagination')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => LoginScreen())),
                     child: Text('Mobile Otp Firebase')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -184,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => DissmissViewPage())),
                     child: Text('Dismiss List View')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -191,6 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => ConnectionCheck())),
                     child: Text('Check Connection')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -198,12 +214,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => PermissionHandlerPage())),
                     child: Text('Permission Handler')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => ApiCall())),
                     child: Text('Api handle')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -211,12 +229,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => TimePickerPage())),
                     child: Text('Time Picker')),
+                SizedBox(height: 20),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
                     onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => SizerPage())),
                     child: Text('Sizer Page')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
@@ -224,6 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(
                             builder: (context) => ScreenLifecycle())),
                     child: Text('ScreenLifecycle')),
+                SizedBox(height: Constants.margin.extraSmall),
                 MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lazy_loading_listview/networkModule/BaseUrl.dart';
+import 'package:lazy_loading_listview/sizeConfigModule/SizeConfig.dart';
 
 class Constants {
   static final RouteName routeName = RouteName();
@@ -8,6 +9,7 @@ class Constants {
   static final AppMargin margin = AppMargin();
   static final AppPadding padding = AppPadding();
   static final AppString appString = AppString();
+  static final SizeConfig sizeConfig = SizeConfig();
 }
 
 class RouteName {
@@ -24,6 +26,8 @@ class AppString {
   const AppString();
   final appName = "Flutter Implementation";
 }
+
+class AppColor {}
 
 class CommonMethod {
   const CommonMethod();
@@ -50,7 +54,11 @@ class CommonMethod {
 
 class AppMargin {
   const AppMargin();
-  final double smallMargin = 25.5;
+  final double extraSmall = 8.0;
+  final double smallMargin = 10.5;
+  final double mediumMargin = 15.0;
+  final double largeMargin = 20.0;
+  final double extraLargeMargin = 25.0;
 }
 
 class AppPadding {
