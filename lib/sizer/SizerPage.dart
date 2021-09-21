@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lazy_loading_listview/main.dart';
+import 'package:lazy_loading_listview/sizeConfigModule/SizeConfig.dart';
 import 'package:lazy_loading_listview/sizer/AspectRatio.dart';
 import 'package:lazy_loading_listview/sizer/MediaQueary.dart';
 
@@ -32,7 +33,7 @@ class _SizerPageState extends State<SizerPage> {
                     MaterialPageRoute(builder: (context) => AspectRatioPage()));
               },
               child: Text('Aspect Ratio'),
-            )
+            ),
           ],
         ));
   }

@@ -1,6 +1,6 @@
 class EndPoint {
   const EndPoint();
 
-  static final baseUrl = 'https://jsonplaceholder.typicode.com';
-  static final todos = baseUrl + '/todos';
+  static final todos = 'https://jsonplaceholder.typicode.com/todos';
+  static final synergyLoginCall = "http://synergy.imperoserver.in/api/login";
 }

@@ -1,97 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lazy_loading_listview/blocModule/bloc.dart';
 import 'package:lazy_loading_listview/blocModule/login_bloc/LoginBloc.dart';
-import 'package:formz/formz.dart';
+import 'package:lazy_loading_listview/blocModule/login_bloc/LoginEvent.dart';
+import 'package:lazy_loading_listview/blocModule/login_bloc/LoginState.dart';
+import 'package:lazy_loading_listview/blocModule/login_page/LoginLogo.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({LoginBloc signInBloc});
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.status.isSubmissionFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-              content: Text('Authentication Failed!'),
-            ));
-        }
-      },
-      child: Align(
-        alignment: Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _UsernameInput(),
-            Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
-          ],
-        ),
-      ),
-    );
-  }
-}
+class LoginBlocForm extends StatelessWidget {
+  const LoginBlocForm({
+    Key key,
+    @required this.userNameController,
+    @required this.userPasswordController,
+    @required this.signInBloc,
+  }) : super(key: key);
 
-class _UsernameInput extends StatelessWidget {
+  final TextEditingController userNameController;
+  final TextEditingController userPasswordController;
+  final LoginBloc signInBloc;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.username != current.username,
-      builder: (context, state) {
-        return TextField(
-          key: Key('loginForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-          decoration: InputDecoration(
-              labelText: 'username',
-              errorText: state.username.invalid ? 'invalid username' : null),
-        );
-      },
-    );
-  }
-}
-
-class _PasswordInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.password != current.password,
-      builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'password',
-            errorText: state.password.invalid ? 'invalid password' : null,
+      cubit: signInBloc,
+      builder: (BuildContext context, LoginState state) {
+        return SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                LoginLogo(),
+                Padding(padding: EdgeInsets.all(12)),
+                TextFormField(
+                  controller: userNameController,
+                  decoration: InputDecoration(
+                      hintText: 'Enter Email', labelText: 'Email'),
+                ),
+                Padding(padding: EdgeInsets.all(12)),
+                TextFormField(
+                  controller: userPasswordController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter Password',
+                    labelText: 'Password',
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(12)),
+                MaterialButton(
+                  color: Colors.blue,
+                  onPressed: () {
+                    signInBloc.add(LoginButtonClickEvent(
+                        userNameController.text.trim(),
+                        userPasswordController.text.trim()));
+                  },
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                BlocConsumer<LoginBloc, LoginState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    return InkWell(
+                      onTap: () {
+                        signInBloc.add(CheckBoxClickEvent());
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Checkbox(
+                              value: signInBloc.checkValue,
+                              onChanged: (vale) {
+                                signInBloc.add(CheckBoxClickEvent());
+                              }),
+                          Text('Remember me?')
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         );
-      },
-    );
-  }
-}
-
-class _LoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                key: const Key('loginForm_continue_raisedButton'),
-                child: const Text('Login'),
-                onPressed: state.status.isValidated
-                    ? () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
-                      }
-                    : null,
-              );
       },
     );
   }
