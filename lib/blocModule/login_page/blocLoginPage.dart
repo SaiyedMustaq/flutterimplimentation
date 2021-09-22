@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage>
 
     if (kDebugMode) {
       userNameController.text = 'admin@gmail.com';
-      userPasswordController.text = '12345678';
+      userPasswordController.text = '1234567';
     }
     super.initState();
   }
@@ -76,42 +76,5 @@ class _LoginPageState extends State<LoginPage>
     super.dispose();
 
     signInBloc.close();
-  }
-}
-
-
-
-
-
-enum UsernameValidationError { empty }
-enum PasswordValidationError { empty }
-
-class Username extends FormzInput<String, UsernameValidationError> {
-  const Username.pure() : super.pure('');
-  const Username.dirty([String value = '']) : super.dirty(value);
-
-  @override
-  UsernameValidationError validator(String value) {
-    return value?.isNotEmpty == true ? null : UsernameValidationError.empty;
-  }
-}
-
-class Password extends FormzInput<String, PasswordValidationError> {
-  const Password.pure() : super.pure('');
-  const Password.dirty([String value = '']) : super.dirty(value);
-
-  @override
-  PasswordValidationError validator(String value) {
-    return value?.isNotEmpty == true ? null : PasswordValidationError.empty;
-  }
-}
-
-class MyLoader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: 0.1,
-      child: Container(),
-    );
   }
 }

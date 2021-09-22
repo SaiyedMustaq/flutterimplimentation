@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:lazy_loading_listview/blocModule/models/UserLoginResponse.dart';
 
@@ -10,6 +8,12 @@ abstract class LoginState extends Equatable {
 class InitialLoginState extends LoginState {
   @override
   List<dynamic> get props => [];
+}
+
+class InterNetState extends LoginState {
+  bool isInternetAvailable;
+  @override
+  List<Object> get props => [isInternetAvailable];
 }
 
 class LoginLoading extends LoginState {
@@ -39,3 +43,10 @@ class RememberDone extends LoginState {
   List<dynamic> get props => [remember];
 }
 
+class InternetCheckState extends LoginState {
+  
+  final String message;
+  InternetCheckState(this.message);
+  @override
+  List<Object> get props => [message];
+}

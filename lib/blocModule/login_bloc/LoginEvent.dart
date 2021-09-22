@@ -6,6 +6,14 @@ abstract class LoginEvent extends Equatable {
   const LoginEvent();
 }
 
+class InternetCheckEvent extends LoginEvent {
+  final bool checkInternet;
+  final String message;
+  InternetCheckEvent({this.checkInternet, this.message});
+  @override
+  List<Object> get props => [checkInternet, message];
+}
+
 class LoginButtonClickEvent extends LoginEvent {
   final String email;
   final String password;

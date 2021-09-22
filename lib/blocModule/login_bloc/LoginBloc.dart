@@ -73,12 +73,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_loading_listview/blocModule/login_bloc/LoginEvent.dart';
 import 'package:lazy_loading_listview/blocModule/login_bloc/LoginState.dart';
 import 'package:lazy_loading_listview/blocModule/repository/UserRepository.dart';
+import 'package:lazy_loading_listview/utils/Constants.dart';
 
 enum ResponseStatus { SUCCESS, FAILED }
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository repository;
   bool checkValue = false;
+  bool isInternetAvailable = false;
   LoginBloc(this.repository) : super(null);
   @override
   LoginState get initialState => InitialLoginState();
